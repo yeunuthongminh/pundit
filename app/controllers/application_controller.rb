@@ -26,6 +26,7 @@ class ApplicationController < ActionController::Base
   end
 
   def page_params
-    Hash[:controller, params[:controller], :action, params[:action]]
+    Hash[:controller, params[:controller], :action, params[:action],
+      :session, session[:user_permissions]]
   end
 end
