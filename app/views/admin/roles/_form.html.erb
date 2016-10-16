@@ -1,0 +1,43 @@
+<%= form_for [:admin, @role] do |f| %>
+  <div class="form-group">
+    <%= f.label :name %>
+    <%= f.text_field :name, class: "form-control" %>
+  </div>
+
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th></th>
+        <% Settings.actions.each do |action| %>
+          <th><%= action.capitalize %></th>
+        <% end %>
+      </tr>
+    </thead>
+    <% @routes.each do |route| %>
+      <tr>
+        <td>
+          <%= route[:controller] %>
+        </td>
+        <% Settings.actions.each do |action| %>
+          <% if route[:actions].include? action %>
+            <%= f.fields_for :permissions, @role.permissions.build do |builder| %>
+              <%= builder.hidden_field :id, value: @role.permission(action, route[:controller]) %>
+              <%= builder.hidden_field :model_class, value: route[:controller] %>
+              <%= builder.hidden_field :action, value: action %>
+              <td>
+                <%= builder.check_box :_destroy, {checked: @role.permission(action, route[:controller]).present?}, false, true %>
+              </td>
+            <% end %>
+          <% else %>
+            <td>
+              <%= "N/A" %>
+            </td>
+          <% end %>
+        <% end %>
+      </tr>
+    <% end %>
+  </table>
+  <div class="form-group">
+    <%= f.submit "Save", class: "btn btn-success" %>
+  </div>
+<% end %>
