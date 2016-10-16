@@ -13,7 +13,7 @@
         <% end %>
       </tr>
     </thead>
-    <% @routes.each do |route| %>
+    <% @role_support.routes.each do |route| %>
       <tr>
         <td>
           <%= route[:controller] %>
@@ -21,11 +21,11 @@
         <% Settings.actions.each do |action| %>
           <% if route[:actions].include? action %>
             <%= f.fields_for :permissions, @role.permissions.build do |builder| %>
-              <%= builder.hidden_field :id, value: @role.permission(action, route[:controller]) %>
+              <%= builder.hidden_field :id, value: @role_support.permission(action, route[:controller]) %>
               <%= builder.hidden_field :model_class, value: route[:controller] %>
               <%= builder.hidden_field :action, value: action %>
               <td>
-                <%= builder.check_box :_destroy, {checked: @role.permission(action, route[:controller]).present?}, false, true %>
+                <%= builder.check_box :_destroy, {checked: @role_support.permission(action, route[:controller]).present?}, false, true %>
               </td>
             <% end %>
           <% else %>
