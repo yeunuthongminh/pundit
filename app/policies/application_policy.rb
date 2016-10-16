@@ -7,6 +7,7 @@ class ApplicationPolicy
   end
 
   def index?
+    binding.pry
     false
   end
 
