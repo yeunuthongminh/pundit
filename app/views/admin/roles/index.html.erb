@@ -8,11 +8,13 @@
   </thead>
   <tbody>
     <% @roles.each do |role| %>
-      <tr>
-        <td>
-          <%= link_to role.name, [:admin, role] %>
-        </td>
-      </tr>
+      <% if Admin::RolePolicy.new(current_user, policy_params("admin/roles", "show")).show? %>
+        <tr>
+          <td>
+            <%= link_to role.name, [:admin, role] %>
+          </td>
+        </tr>
+      <% end %>
     <% end %>
   </tbody>
 </table>

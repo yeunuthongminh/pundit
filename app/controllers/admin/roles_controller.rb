@@ -1,6 +1,6 @@
 class Admin::RolesController < ApplicationController
   def index
-    @roles = Role.all
+    @roles = Role.includes(:permissions).all
     authorize_with_multiple page_params, :index?, Admin::RolePolicy
   end
 

@@ -5,32 +5,33 @@ class Admin::RolePolicy < ApplicationPolicy
     end
   end
 
-  attr_reader :current_user, :controller, :action, :record
+  attr_reader :current_user, :controller, :action, :record, :session
 
   def initialize current_user, args
     @user = current_user
     @controller = args[:controller]
     @action = args[:action]
     @record = args[:record]
+    @session = args[:session]
   end
 
   def index?
-    @user.has_permission?([@controller, @action]) || @user.has_role?("Admin")
+    @user.has_role?("Admin") || has_permission?([@controller, @action])
   end
 
   def new?
-    @user.has_permission?([@controller, @action]) || @user.has_role?("Admin")
+    @user.has_role?("Admin") || has_permission?([@controller, @action])
   end
 
   def create?
-    @user.has_permission?([@controller, @action]) || @user.has_role?("Admin")
+    @user.has_role?("Admin") || has_permission?([@controller, @action])
   end
 
   def show?
-    @user.has_permission?([@controller, @action]) || @user.has_role?("Admin")
+    @user.has_role?("Admin") || has_permission?([@controller, @action])
   end
 
   def update?
-    @user.has_permission?([@controller, @action]) || @user.has_role?("Admin")
+    @user.has_role?("Admin") || has_permission?([@controller, @action])
   end
 end

@@ -7,7 +7,6 @@ class ApplicationPolicy
   end
 
   def index?
-    binding.pry
     false
   end
 
@@ -50,5 +49,10 @@ class ApplicationPolicy
     def resolve
       scope
     end
+  end
+
+  private
+  def has_permission? args
+    @session.include? args
   end
 end
